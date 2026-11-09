@@ -1,0 +1,231 @@
+id = "mave/tailscale"
+name = "Tailscale & Mullvad"
+version = "1.0.0"
+plugin_api = 28
+author = "Mave"
+license = "MIT"
+icon = "shield-lock"
+description = "Tailscale network manager with connected devices, Mullvad exit node browser, pinned nodes, and one-click quick connect."
+dependencies = ["tailscale", "python3"]
+
+# ---------------------------------------------------------------------------
+# Global Plugin Settings (Settings -> Plugins -> Tailscale & Mullvad)
+# ---------------------------------------------------------------------------
+
+[[setting]]
+key = "refresh_interval"
+type = "int"
+label_key = "settings.refresh_interval.label"
+description_key = "settings.refresh_interval.description"
+default = 5
+
+[[setting]]
+key = "default_quick_exit_node"
+type = "string"
+label_key = "settings.default_quick_exit_node.label"
+description_key = "settings.default_quick_exit_node.description"
+default = ""
+
+[[setting]]
+key = "allow_lan_access"
+type = "bool"
+label_key = "settings.allow_lan_access.label"
+description_key = "settings.allow_lan_access.description"
+default = true
+
+[[setting]]
+key = "show_mullvad_nodes"
+type = "bool"
+label_key = "settings.show_mullvad_nodes.label"
+description_key = "settings.show_mullvad_nodes.description"
+default = true
+
+[[setting]]
+key = "max_visible_nodes"
+type = "int"
+label_key = "settings.max_visible_nodes.label"
+description_key = "settings.max_visible_nodes.description"
+default = 60
+
+[[setting]]
+key = "use_pkexec_fallback"
+type = "bool"
+label_key = "settings.use_pkexec_fallback.label"
+description_key = "settings.use_pkexec_fallback.description"
+default = true
+
+[[setting]]
+key = "notify_on_change"
+type = "bool"
+label_key = "settings.notify_on_change.label"
+description_key = "settings.notify_on_change.description"
+default = true
+
+[[setting]]
+key = "text_exit_active"
+type = "string"
+label_key = "settings.text_exit_active.label"
+description_key = "settings.text_exit_active.description"
+default = ""
+
+[[setting]]
+key = "text_connected"
+type = "string"
+label_key = "settings.text_connected.label"
+description_key = "settings.text_connected.description"
+default = ""
+
+[[setting]]
+key = "text_disconnected"
+type = "string"
+label_key = "settings.text_disconnected.label"
+description_key = "settings.text_disconnected.description"
+default = "Down"
+
+[[setting]]
+key = "glyph_exit_active"
+type = "glyph"
+label_key = "settings.glyph_exit_active.label"
+description_key = "settings.glyph_exit_active.description"
+default = "shield-lock"
+
+[[setting]]
+key = "glyph_connected"
+type = "glyph"
+label_key = "settings.glyph_connected.label"
+description_key = "settings.glyph_connected.description"
+default = "network"
+
+[[setting]]
+key = "glyph_disconnected"
+type = "glyph"
+label_key = "settings.glyph_disconnected.label"
+description_key = "settings.glyph_disconnected.description"
+default = "shield-off"
+
+[[setting]]
+key = "glyph_login"
+type = "glyph"
+label_key = "settings.glyph_login.label"
+description_key = "settings.glyph_login.description"
+default = "alert-triangle"
+
+# ---------------------------------------------------------------------------
+# Background Service
+# ---------------------------------------------------------------------------
+
+[[service]]
+id = "service"
+entry = "service.luau"
+
+# ---------------------------------------------------------------------------
+# Bar Widget
+# ---------------------------------------------------------------------------
+
+[[widget]]
+id = "tailscale"
+entry = "widget.luau"
+
+  [[widget.setting]]
+  key = "display_mode"
+  type = "select"
+  label_key = "widget.display_mode.label"
+  description_key = "widget.display_mode.description"
+  default = "exit_node"
+  options = [
+      { value = "exit_node", label_key = "widget.display_mode.options.exit_node" },
+      { value = "custom", label_key = "widget.display_mode.options.custom" },
+      { value = "ip", label_key = "widget.display_mode.options.ip" },
+      { value = "peers", label_key = "widget.display_mode.options.peers" },
+      { value = "status", label_key = "widget.display_mode.options.status" },
+      { value = "compact", label_key = "widget.display_mode.options.compact" },
+      { value = "icon_only", label_key = "widget.display_mode.options.icon_only" }
+  ]
+
+  [[widget.setting]]
+  key = "right_click_action"
+  type = "select"
+  label_key = "widget.right_click_action.label"
+  description_key = "widget.right_click_action.description"
+  default = "quick_exit"
+  options = [
+      { value = "quick_exit", label_key = "widget.right_click_action.options.quick_exit" },
+      { value = "toggle_tailscale", label_key = "widget.right_click_action.options.toggle_tailscale" },
+      { value = "disconnect_exit", label_key = "widget.right_click_action.options.disconnect_exit" },
+      { value = "open_settings", label_key = "widget.right_click_action.options.open_settings" }
+  ]
+
+  [[widget.setting]]
+  key = "label_on"
+  type = "string"
+  label_key = "widget.label_on.label"
+  description_key = "widget.label_on.description"
+  default = ""
+
+  [[widget.setting]]
+  key = "label_off"
+  type = "string"
+  label_key = "widget.label_off.label"
+  description_key = "widget.label_off.description"
+  default = ""
+
+  [[widget.setting]]
+  key = "label_down"
+  type = "string"
+  label_key = "widget.label_down.label"
+  description_key = "widget.label_down.description"
+  default = ""
+
+  [[widget.setting]]
+  key = "widget_glyph_exit_active"
+  type = "glyph"
+  label_key = "widget.glyph_exit_active.label"
+  description_key = "widget.glyph_exit_active.description"
+  default = ""
+
+  [[widget.setting]]
+  key = "widget_glyph_connected"
+  type = "glyph"
+  label_key = "widget.glyph_connected.label"
+  description_key = "widget.glyph_connected.description"
+  default = ""
+
+  [[widget.setting]]
+  key = "widget_glyph_disconnected"
+  type = "glyph"
+  label_key = "widget.glyph_disconnected.label"
+  description_key = "widget.glyph_disconnected.description"
+  default = ""
+
+  [[widget.setting]]
+  key = "widget_glyph_login"
+  type = "glyph"
+  label_key = "widget.glyph_login.label"
+  description_key = "widget.glyph_login.description"
+  default = ""
+
+# ---------------------------------------------------------------------------
+# Interactive Shell Panel
+# ---------------------------------------------------------------------------
+
+[[panel]]
+id = "panel"
+entry = "panel.luau"
+width = 450
+height = 560
+placement = "attached"
+position = "auto"
+open_near_click = true
+
+# ---------------------------------------------------------------------------
+# Control Center Shortcuts
+# ---------------------------------------------------------------------------
+
+[[shortcut]]
+id = "toggle"
+entry = "shortcut.luau"
+
+[[shortcut]]
+id = "quick-exit"
+entry = "quick_exit_shortcut.luau"
+
